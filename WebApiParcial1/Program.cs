@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Repository.Contexts;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +10,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var connectionString = builder.Configuration.GetConnectionString("postgresConnection");
+
+builder.Services.AddDbContext<ContextoAplicacionDB>(options =>
+{
+    options.UseNpgsql(connectionString);
+}
+);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
